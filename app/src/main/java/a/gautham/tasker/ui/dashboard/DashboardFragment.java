@@ -37,6 +37,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
 
+import a.gautham.tasker.Common;
 import a.gautham.tasker.LoginActivity;
 import a.gautham.tasker.R;
 import a.gautham.tasker.models.ReminderList;
@@ -63,20 +64,43 @@ public class DashboardFragment extends Fragment {
 
         pref = requireActivity().getSharedPreferences("Reminders", 0);
 
-        reminderRef = FirebaseDatabase.getInstance()
-                .getReference("Reminders")
-                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            reminderRef = FirebaseDatabase.getInstance()
+                    .getReference("Reminders")
+                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
 
-        new SetReminder().execute();
-        checkCount();
+            new SetReminder().execute();
+            checkCount();
+        }
+
         UpdateUI();
 
         return root;
     }
 
-    private void UpdateUI(){
+    private void UpdateUI() {
 
-        if (FirebaseAuth.getInstance().getCurrentUser()==null){
+        SharedPreferences preferences = requireActivity()
+                .getSharedPreferences(Common.FlagsPref, Context.MODE_PRIVATE);
+
+        String newUser = preferences.getString(Common.NewUser, "");
+
+        if (!newUser.isEmpty() && newUser.equals("0")) {
+
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                preferences.edit().putString(Common.NewUser, "1").apply();
+                UpdateUI();
+                return;
+            }
+
+            error.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            error.setText(R.string.welcome_new_user);
+            return;
+        }
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             error.setVisibility(View.VISIBLE);
             error.setText(R.string.login_to_view_tasks);
             progressBar.setVisibility(View.GONE);

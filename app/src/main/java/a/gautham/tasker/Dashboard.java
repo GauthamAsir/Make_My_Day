@@ -4,18 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -23,6 +16,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 public class Dashboard extends AppCompatActivity implements View.OnClickListener {
 
@@ -63,9 +60,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        SharedPreferences preferences = getSharedPreferences(Common.FlagsPref, Context.MODE_PRIVATE);
-        preferences.edit().putString(Common.NewUser,"1").apply();
-
         add_fab.setOnClickListener(this);
         addNotes.setOnClickListener(this);
         addTasks.setOnClickListener(this);
@@ -105,15 +99,22 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onBackPressed() {
 
-        if (back_pressed + 2000 > System.currentTimeMillis()){
+        if (back_pressed + 2000 > System.currentTimeMillis()) {
             finish();
             moveTaskToBack(true);
             System.exit(1);
             android.os.Process.killProcess(android.os.Process.myPid());
-        }else {
+        } else {
             Snackbar.make(root, getString(R.string.press_again_to_exit), Snackbar.LENGTH_SHORT).show();
             back_pressed = System.currentTimeMillis();
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharedPreferences preferences = getSharedPreferences(Common.FlagsPref, Context.MODE_PRIVATE);
+        preferences.edit().putString(Common.NewUser, "1").apply();
     }
 }

@@ -57,4 +57,5 @@
     <string name="login_to_view_tasks">Login to view your Tasks and Notes \n Click here to Login</string>
     <string name="no_reminders">No Reminders</string>
     <string name="channel_id">Tasker</string>
+    <string name="welcome_new_user">Welcome, Start exploring our app by adding new notes/tasks</string>
 </resources>

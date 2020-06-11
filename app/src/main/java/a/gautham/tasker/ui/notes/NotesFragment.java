@@ -1,6 +1,8 @@
 package a.gautham.tasker.ui.notes;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import a.gautham.tasker.AddNotes;
+import a.gautham.tasker.Common;
 import a.gautham.tasker.LoginActivity;
 import a.gautham.tasker.R;
 import a.gautham.tasker.models.NotesModel;
@@ -51,19 +54,42 @@ public class NotesFragment extends Fragment {
 
         error = root.findViewById(R.id.error);
 
-        reference = FirebaseDatabase.getInstance()
-                .getReference("Notes")
-                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            reference = FirebaseDatabase.getInstance()
+                    .getReference("Notes")
+                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
 
-        checkCount();
+            checkCount();
+        }
+
         updateUI();
 
         return root;
     }
 
-    private void updateUI(){
+    private void updateUI() {
 
-        if (FirebaseAuth.getInstance().getCurrentUser()==null){
+        SharedPreferences preferences = requireActivity()
+                .getSharedPreferences(Common.FlagsPref, Context.MODE_PRIVATE);
+
+        String newUser = preferences.getString(Common.NewUser, "");
+
+        if (!newUser.isEmpty() && newUser.equals("0")) {
+
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                preferences.edit().putString(Common.NewUser, "1").apply();
+                updateUI();
+                return;
+            }
+
+            error.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            error.setText(R.string.welcome_new_user);
+            return;
+        }
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             error.setVisibility(View.VISIBLE);
             error.setText(R.string.login_to_view_tasks);
             progressBar.setVisibility(View.GONE);

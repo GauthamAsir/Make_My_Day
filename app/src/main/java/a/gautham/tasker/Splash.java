@@ -1,11 +1,5 @@
 package a.gautham.tasker;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.transition.Fade;
-import androidx.transition.Transition;
-
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +7,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.transition.Fade;
+import androidx.transition.Transition;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,9 +26,14 @@ public class Splash extends AppCompatActivity {
         final FloatingActionButton fab = findViewById(R.id.next_bt);
 
         SharedPreferences preferences = getSharedPreferences(Common.FlagsPref, Context.MODE_PRIVATE);
+
+        if (!preferences.contains(Common.NewUser)) {
+            preferences.edit().putString(Common.NewUser, "0").apply();
+        }
+
         String newUser = preferences.getString(Common.NewUser, "");
 
-        if (!newUser.isEmpty() && newUser.equals("1")){
+        if (!newUser.isEmpty() && newUser.equals("1")) {
             fab.setVisibility(View.INVISIBLE);
 
             handler.postDelayed(new Runnable() {
@@ -39,7 +42,7 @@ public class Splash extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), Dashboard.class));
                     finish();
                 }
-            },700);
+            }, 700);
 
             return;
         }
