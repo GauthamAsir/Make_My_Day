@@ -52,6 +52,7 @@ public class DashboardFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
+        checkCount();
         UpdateUI();
 
         return root;
