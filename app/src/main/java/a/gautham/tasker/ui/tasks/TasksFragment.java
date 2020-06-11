@@ -54,7 +54,7 @@ public class TasksFragment extends Fragment {
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             reference = FirebaseDatabase.getInstance()
-                    .getReference("Notes")
+                    .getReference("Tasks")
                     .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
 
             checkCount();
