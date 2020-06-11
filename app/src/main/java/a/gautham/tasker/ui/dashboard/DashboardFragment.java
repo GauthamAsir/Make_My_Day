@@ -1,9 +1,16 @@
 package a.gautham.tasker.ui.dashboard;
 
+import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -40,6 +48,7 @@ public class DashboardFragment extends Fragment {
     private TextView error;
     private RecyclerView recyclerView;
     private DatabaseReference reminderRef;
+    private SharedPreferences pref;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +61,13 @@ public class DashboardFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
+        pref = requireActivity().getSharedPreferences("Reminders", 0);
+
+        reminderRef = FirebaseDatabase.getInstance()
+                .getReference("Reminders")
+                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+
+        new SetReminder().execute();
         checkCount();
         UpdateUI();
 
@@ -72,10 +88,6 @@ public class DashboardFragment extends Fragment {
             });
             return;
         }
-
-        reminderRef = FirebaseDatabase.getInstance()
-                .getReference("Reminders")
-                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
 
         final DatabaseReference notesRef = FirebaseDatabase.getInstance()
                 .getReference("Notes")
@@ -160,7 +172,7 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.getChildrenCount() == 0) {
+                if (dataSnapshot.getChildrenCount() <= 0) {
                     error.setVisibility(View.VISIBLE);
                     error.setText(R.string.no_reminders);
                     progressBar.setVisibility(View.GONE);
@@ -177,6 +189,73 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+    }
+
+    class SetReminder extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+
+            reminderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @SuppressLint("CommitPrefEdits")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                        pref = requireActivity().getSharedPreferences("Reminders", 0);
+
+                        if (!pref.contains(snapshot.getKey())) {
+
+                            ReminderList reminderList = snapshot.getValue(ReminderList.class);
+
+                            String time = Objects.requireNonNull(reminderList).getReminderTime().substring(0, reminderList.getReminderTime().length() - 2);
+                            time = time.replace(" ", "");
+                            int hour = Integer.parseInt(time.split(":")[0]);
+
+                            int min = Integer.parseInt(time.split(":")[1]);
+
+                            String amPM = reminderList.getReminderTime()
+                                    .substring(reminderList.getReminderTime().length() - 2);
+
+                            int day = Integer.parseInt(reminderList.getReminderDate().split("-")[2]);
+                            int month = Integer.parseInt(reminderList.getReminderDate().split("-")[1]);
+                            int year = Integer.parseInt(reminderList.getReminderDate().split("-")[0]);
+
+                            Intent myIntent = new Intent(getActivity(), NotifyService.class);
+                            AlarmManager alarmManager = (AlarmManager) requireActivity().getSystemService(Context.ALARM_SERVICE);
+                            PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, myIntent, 0);
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(Calendar.SECOND, 0);
+                            calendar.set(Calendar.MINUTE, min);
+                            calendar.set(Calendar.HOUR, hour);
+                            calendar.set(Calendar.AM_PM, amPM
+                                    .equalsIgnoreCase("AM") ? Calendar.AM : Calendar.PM);
+                            calendar.set(Calendar.DAY_OF_MONTH, day);
+                            calendar.set(Calendar.MONTH, month);
+                            calendar.set(Calendar.YEAR, year);
+                            if (alarmManager != null) {
+                                Log.d("HEY", "YES");
+                                //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                                pref.edit().putString(snapshot.getKey(), snapshot.getKey());
+                                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, pendingIntent);
+                            }
+                        } else {
+                            Log.d("HEY", "NO");
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            return null;
+        }
     }
 
 }
