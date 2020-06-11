@@ -237,7 +237,7 @@ public class DashboardFragment extends Fragment {
                             if (alarmManager != null) {
                                 Log.d("HEY", "YES");
                                 //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                                pref.edit().putString(snapshot.getKey(), snapshot.getKey());
+                                pref.edit().putString(snapshot.getKey(), snapshot.getKey()).apply();
                                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, pendingIntent);
                             }
                         } else {
