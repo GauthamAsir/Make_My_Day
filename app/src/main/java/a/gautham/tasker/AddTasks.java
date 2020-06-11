@@ -72,14 +72,6 @@ public class AddTasks extends AppCompatActivity {
         date.setKeyListener(null);
         time.setKeyListener(null);
 
-        if (aSwitch.isChecked()){
-            datePicker.setEnabled(true);
-            timePicker.setEnabled(true);
-        }else {
-            datePicker.setEnabled(false);
-            timePicker.setEnabled(false);
-        }
-
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -103,15 +95,27 @@ public class AddTasks extends AppCompatActivity {
             String rTime = getIntent().getStringExtra("time");
             id = getIntent().getStringExtra("id");
 
-            if (t!=null&&!t.isEmpty())
+            if (t != null && !t.isEmpty())
                 taskTitle.setText(t);
 
-            if (rDate!=null&&!rDate.isEmpty())
+            if (rDate != null && !rDate.isEmpty())
                 date.setText(rDate);
 
-            if (rTime!=null&&!rTime.isEmpty())
+            if (rTime != null && !rTime.isEmpty())
                 time.setText(rTime);
 
+            if (rDate != null && !rDate.isEmpty()) {
+                aSwitch.setChecked(true);
+                reminder = true;
+            }
+        }
+
+        if (aSwitch.isChecked()) {
+            datePicker.setEnabled(true);
+            timePicker.setEnabled(true);
+        } else {
+            datePicker.setEnabled(false);
+            timePicker.setEnabled(false);
         }
 
         datePicker.setOnClickListener(new View.OnClickListener() {
@@ -179,12 +183,18 @@ public class AddTasks extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
 
-                            if (reminder){
+                            if (reminder) {
                                 ReminderList reminderList = new ReminderList(getTaskTitle(),
-                                        uid, getReminderDate(), getReminderTime(), "Tasks");
+                                        id != null && !id.isEmpty() ? id : uid, getReminderDate(), getReminderTime(), "Tasks");
 
                                 DatabaseReference reminderRef = FirebaseDatabase.getInstance().getReference("Reminders")
-                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(uid);
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                                if (id != null && !id.isEmpty()) {
+                                    reminderRef = reminderRef.child(id);
+                                } else {
+                                    reminderRef = reminderRef.child(uid);
+                                }
 
                                 reminderRef.setValue(reminderList);
                             }
