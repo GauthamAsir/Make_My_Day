@@ -98,6 +98,10 @@ public class DashboardFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
             error.setText(R.string.welcome_new_user);
             return;
+        } else {
+            error.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {

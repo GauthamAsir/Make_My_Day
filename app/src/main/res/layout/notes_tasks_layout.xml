@@ -32,7 +32,7 @@
 
             <TextView
                 android:id="@+id/notes_title"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:text="@string/title_notes"
@@ -40,7 +40,8 @@
                 android:layout_gravity="center_vertical"
                 android:textAppearance="?android:textAppearanceMedium"
                 tools:ignore="NestedWeights"
-                android:gravity="center"/>
+                android:gravity="start|center_vertical"
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/editedTag"
