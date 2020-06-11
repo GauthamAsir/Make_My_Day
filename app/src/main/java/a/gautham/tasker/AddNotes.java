@@ -102,7 +102,7 @@ public class AddNotes extends AppCompatActivity{
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class)
                             .putExtra("title", getNotesTitle().isEmpty() ? "default" : getNotesTitle())
                             .putExtra("content", getNotesContent().isEmpty() ? "default" : getNotesContent())
-                            .putExtra("type", "Tasks"));
+                            .putExtra("type", "Notes"));
                     Common.toastShort(getApplicationContext(), getString(R.string.login_to_save_notes));
                     return;
                 }
