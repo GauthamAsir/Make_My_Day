@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddNotes"
+    android:animateLayoutChanges="true">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="12dp"
+        app:navigationIcon="?attr/homeAsUpIndicator">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:text="@string/add_notes"
+                android:layout_marginStart="12dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+            <TextView
+                android:id="@+id/save_notes"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/save"
+                android:gravity="center"
+                android:layout_alignParentEnd="true"
+                android:textColor="@android:color/white"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginEnd="24dp"
+                android:background="?selectableItemBackground"
+                android:padding="@dimen/margin_6"
+                tools:ignore="RelativeOverlap" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/overlayBackground"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/notesTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/title"
+        style="@style/textInput"
+        app:errorEnabled="true"
+        app:hintEnabled="true"
+        android:layout_below="@+id/toolbar">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            style="@style/editTextInput"
+            android:focusable="true"
+            android:drawableEnd="@drawable/ic_round_title_24"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <EditText
+        android:id="@+id/notesContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/content"
+        android:inputType="text"
+        android:autofillHints="@null"
+        android:gravity="top|start"
+        android:layout_marginStart="@dimen/margin_12"
+        android:layout_marginEnd="@dimen/margin_12"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/content_bg"
+        android:padding="12dp"
+        android:layout_below="@+id/notesTitle"
+        android:layout_above="@+id/reminder"/>
+
+    <Button
+        android:id="@+id/reminder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginEnd="@dimen/margin_24"
+        android:layout_marginBottom="@dimen/margin_12"
+        android:textAllCaps="false"
+        android:text="@string/set_reminder"
+        android:textSize="18sp"
+        style="?attr/materialButtonOutlinedStyle"
+        android:drawableEnd="@drawable/ic_round_notifications_24"
+        android:textColor="?android:textColorPrimary"/>
+
+</RelativeLayout>

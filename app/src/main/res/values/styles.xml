@@ -1,0 +1,51 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:fontFamily">@font/ubuntu</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAnimationStyle">@style/Android_Q_ActivityAnimation</item>
+        <item name="android:homeAsUpIndicator">@drawable/navigation_back_white</item>
+    </style>
+
+    <style name="Android_Q_ActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
+    </style>
+
+    <style name="TextViewInputStyle" parent="android:Widget.Material.TextView">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="textInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginStart">@dimen/margin_12</item>
+        <item name="android:layout_marginEnd">@dimen/margin_12</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:color">@android:color/darker_gray</item>
+        <item name="boxStrokeColor">@android:color/darker_gray</item>
+        <item name="hintTextAppearance">@style/TextViewInputStyle</item>
+        <item name="hintTextColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="editTextInput" parent="android:Widget.Material.EditText">
+        <item name="android:padding">14dp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TimePicker" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:background">?cardBackgroundColor</item>
+        <item name="android:headerBackground">?cardBackgroundColor</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:colorAccent">@color/dark_yellow</item>
+    </style>
+
+</resources>

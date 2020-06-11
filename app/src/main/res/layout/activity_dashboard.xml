@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/colorPrimaryDark"
+        app:titleTextColor="@android:color/white"
+        android:elevation="12dp"
+        app:title="@string/title_dashboard"/>
+    <!-- Hardcode default value -->
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemHorizontalTranslationEnabled="true"
+        app:itemIconTint="@color/bottom_nav_icon_color"
+        app:itemTextColor="@color/bottom_nav_text_color"/>
+
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        android:layout_marginTop="?actionBarSize"
+        android:layout_marginBottom="?actionBarSize"
+        app:navGraph="@navigation/mobile_navigation"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        android:orientation="vertical"
+        android:gravity="end|center">
+
+        <LinearLayout
+            android:id="@+id/addTask_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="invisible"
+            android:gravity="center"
+            android:background="?selectableItemBackground">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/cardCornerRadius"
+                app:cardElevation="@dimen/cardElevation"
+                app:cardUseCompatPadding="true">
+
+                <TextView
+                    android:id="@+id/fab3_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_tasks"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:paddingStart="@dimen/cardview_horizontal_padding"
+                    android:paddingEnd="@dimen/cardview_horizontal_padding"
+                    android:paddingBottom="@dimen/cardview_vertical_padding"
+                    android:paddingTop="@dimen/cardview_vertical_padding" />
+
+            </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/add_task"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="32dp"
+                android:contentDescription="@string/add_tasks"
+                android:tint="@color/ic_launcher_background"
+                android:layout_gravity="bottom|end|center_vertical"
+                android:src="@drawable/tasks_list"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/addNotes_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="invisible"
+            android:gravity="center"
+            android:background="?selectableItemBackground">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/cardCornerRadius"
+                app:cardElevation="@dimen/cardElevation"
+                app:cardUseCompatPadding="true">
+
+                <TextView
+                    android:id="@+id/fab2_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_notes"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:paddingStart="@dimen/cardview_horizontal_padding"
+                    android:paddingEnd="@dimen/cardview_horizontal_padding"
+                    android:paddingBottom="@dimen/cardview_vertical_padding"
+                    android:paddingTop="@dimen/cardview_vertical_padding" />
+
+            </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/add_notes"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:contentDescription="@string/add_notes"
+                android:layout_gravity="bottom|end|center_vertical"
+                android:tint="@color/ic_launcher_background"
+                android:src="@drawable/edit"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:elevation="12dp"
+            app:fabSize="normal"
+            android:tag="Add"
+            app:tint="@android:color/white"
+            app:backgroundTint="@color/ic_launcher_background"
+            android:src="@drawable/ic_baseline_add_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/nav_view"
+            android:transitionName="@string/change_bounds"
+            app:pressedTranslationZ="12dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

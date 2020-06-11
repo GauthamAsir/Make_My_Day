@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/margin_12"
+    app:cardCornerRadius="@dimen/margin_6"
+    android:elevation="6dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/margin_12"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/notes_icon"
+            android:contentDescription="@string/icon"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/margin_6"
+            android:layout_marginEnd="3dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/notes_title"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:text="@string/title_notes"
+                android:padding="@dimen/margin_6"
+                android:layout_gravity="center_vertical"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:ignore="NestedWeights"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/editedTag"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/created"
+                android:paddingStart="@dimen/margin_6"
+                android:paddingEnd="@dimen/margin_6"
+                android:textColor="@android:color/darker_gray"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:textAppearance="?android:textAppearanceSmall"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/createdDate"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="match_parent"
+            android:text="@string/created"
+            android:paddingStart="3dp"
+            android:paddingEnd="@dimen/margin_6"
+            android:textColor="@android:color/darker_gray"
+            android:layout_gravity="center_vertical"
+            android:gravity="bottom"
+            android:textAppearance="?android:textAppearanceSmall"/>
+
+        <ImageView
+            android:id="@+id/reminder_icon"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="0.5"
+            tools:ignore="NestedWeights"
+            android:src="@drawable/ic_round_notifications_24"
+            android:contentDescription="@null"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"/>
+
+        <LinearLayout
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/edit_note"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_outline_edit_24"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:contentDescription="@string/edit" />
+
+            <ImageView
+                android:id="@+id/delete_note"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_round_delete_outline_24"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:contentDescription="@string/delete" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
