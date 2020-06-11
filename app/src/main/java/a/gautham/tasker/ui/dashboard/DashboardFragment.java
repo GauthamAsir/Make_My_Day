@@ -20,18 +20,18 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
 import java.util.Objects;
 
-import a.gautham.tasker.Common;
 import a.gautham.tasker.LoginActivity;
 import a.gautham.tasker.R;
-import a.gautham.tasker.models.NotesModel;
 import a.gautham.tasker.models.ReminderList;
-import a.gautham.tasker.ui.notes.NotesViewHolder;
 
 public class DashboardFragment extends Fragment {
 
@@ -39,6 +39,7 @@ public class DashboardFragment extends Fragment {
     private ProgressBar progressBar;
     private TextView error;
     private RecyclerView recyclerView;
+    private DatabaseReference reminderRef;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class DashboardFragment extends Fragment {
             return;
         }
 
-        final DatabaseReference reminderRef = FirebaseDatabase.getInstance()
+        reminderRef = FirebaseDatabase.getInstance()
                 .getReference("Reminders")
                 .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
 
@@ -99,8 +100,6 @@ public class DashboardFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull ReminderViewHolder reminderViewHolder,
                                             final int position, @NonNull final ReminderList reminderList) {
-
-                checkCount();
 
                 reminderViewHolder.title.setText(reminderList.getTitle());
 
@@ -136,6 +135,7 @@ public class DashboardFragment extends Fragment {
                         reminderRef.child(Objects.requireNonNull(adapter.getRef(position).getKey())).removeValue();
 
                         notifyDataSetChanged();
+                        checkCount();
 
                     }
                 });
@@ -153,15 +153,29 @@ public class DashboardFragment extends Fragment {
 
     }
 
-    private void checkCount(){
-        if (adapter.getItemCount()==0){
-            error.setVisibility(View.VISIBLE);
-            error.setText(R.string.no_reminders);
-            progressBar.setVisibility(View.GONE);
-        }else {
-            progressBar.setVisibility(View.VISIBLE);
-            error.setVisibility(View.GONE);
-        }
+    private void checkCount() {
+
+        reminderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.getChildrenCount() == 0) {
+                    error.setVisibility(View.VISIBLE);
+                    error.setText(R.string.no_reminders);
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    error.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 }

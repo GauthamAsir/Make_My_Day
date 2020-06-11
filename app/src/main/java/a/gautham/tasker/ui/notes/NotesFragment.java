@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -34,6 +37,8 @@ public class NotesFragment extends Fragment {
     private RecyclerView recyclerView;
     private TextView error;
 
+    private DatabaseReference reference;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_notes, container, false);
@@ -46,6 +51,11 @@ public class NotesFragment extends Fragment {
 
         error = root.findViewById(R.id.error);
 
+        reference = FirebaseDatabase.getInstance()
+                .getReference("Notes")
+                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+
+        checkCount();
         updateUI();
 
         return root;
@@ -66,9 +76,6 @@ public class NotesFragment extends Fragment {
             return;
         }
 
-        final DatabaseReference reference = FirebaseDatabase.getInstance()
-                .getReference("Notes")
-                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
         final DatabaseReference reminderRef = FirebaseDatabase.getInstance()
                 .getReference("Reminders")
                 .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
@@ -114,7 +121,8 @@ public class NotesFragment extends Fragment {
                     public void onClick(View v) {
                         reference.child(Objects.requireNonNull(adapter.getRef(position).getKey())).removeValue();
                         reminderRef.child(Objects.requireNonNull(adapter.getRef(position).getKey())).removeValue();
-                        adapter.notifyDataSetChanged();
+                        notifyDataSetChanged();
+                        checkCount();
                     }
                 });
 
@@ -138,6 +146,31 @@ public class NotesFragment extends Fragment {
         adapter.startListening();
 
         recyclerView.setAdapter(adapter);
+
+    }
+
+    private void checkCount() {
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.getChildrenCount() == 0) {
+                    error.setVisibility(View.VISIBLE);
+                    error.setText(R.string.no_reminders);
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    error.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

@@ -16,17 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.Locale;
 import java.util.Objects;
 
-import a.gautham.tasker.AddNotes;
 import a.gautham.tasker.AddTasks;
 import a.gautham.tasker.LoginActivity;
 import a.gautham.tasker.R;
-import a.gautham.tasker.models.NotesModel;
 import a.gautham.tasker.models.TasksModel;
 import a.gautham.tasker.ui.notes.NotesViewHolder;
 
@@ -36,6 +36,7 @@ public class TasksFragment extends Fragment {
     private ProgressBar progressBar;
     private TextView error;
     private RecyclerView recyclerView;
+    private DatabaseReference reference;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +49,11 @@ public class TasksFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
+        reference = FirebaseDatabase.getInstance()
+                .getReference("Tasks")
+                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+
+        checkCount();
         updateUI();
 
         return root;
@@ -67,10 +73,6 @@ public class TasksFragment extends Fragment {
             });
             return;
         }
-
-        final DatabaseReference reference = FirebaseDatabase.getInstance()
-                .getReference("Tasks")
-                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
 
         final DatabaseReference reminderRef = FirebaseDatabase.getInstance()
                 .getReference("Reminders")
@@ -116,7 +118,8 @@ public class TasksFragment extends Fragment {
                     public void onClick(View v) {
                         reference.child(Objects.requireNonNull(adapter.getRef(position).getKey())).removeValue();
                         reminderRef.child(Objects.requireNonNull(adapter.getRef(position).getKey())).removeValue();
-                        adapter.notifyDataSetChanged();
+                        notifyDataSetChanged();
+                        checkCount();
                     }
                 });
 
@@ -139,6 +142,31 @@ public class TasksFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
+    }
+
+    private void checkCount() {
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.getChildrenCount() == 0) {
+                    error.setVisibility(View.VISIBLE);
+                    error.setText(R.string.no_reminders);
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    error.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
+
 }
