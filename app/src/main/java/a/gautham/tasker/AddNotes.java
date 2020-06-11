@@ -99,10 +99,11 @@ public class AddNotes extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if (FirebaseAuth.getInstance().getCurrentUser()==null){
-                    startActivity(new Intent(getApplicationContext(),LoginActivity.class)
-                    .putExtra("title", getNotesTitle().isEmpty() ? "default" : getNotesTitle())
-                    .putExtra("content", getNotesContent().isEmpty() ? "default" : getNotesContent()));
-                    Common.toastShort(getApplicationContext(),getString(R.string.login_to_save_notes));
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class)
+                            .putExtra("title", getNotesTitle().isEmpty() ? "default" : getNotesTitle())
+                            .putExtra("content", getNotesContent().isEmpty() ? "default" : getNotesContent())
+                            .putExtra("type", "Tasks"));
+                    Common.toastShort(getApplicationContext(), getString(R.string.login_to_save_notes));
                     return;
                 }
 

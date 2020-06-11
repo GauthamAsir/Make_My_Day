@@ -1,128 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".RegisterActivity"
-    android:background="@drawable/login_bg">
-
-    <ImageView
-        android:src="@drawable/ic_launcher_round"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_above="@+id/email_container"
-        android:layout_centerHorizontal="true"
-        tools:ignore="ContentDescription" />
-
-    <ProgressBar
-        android:id="@+id/progressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
-
-    <RelativeLayout
-        android:id="@+id/loading"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="@color/overlayBackground"/>
-
-    <LinearLayout
-        android:id="@+id/email_container"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:focusable="true"
-        android:layout_marginTop="8dp"
-        android:padding="4dp"
-        android:focusableInTouchMode="true"
-        tools:ignore="UselessParent">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/registerName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/name"
-            style="@style/textInput"
-            app:errorEnabled="true"
-            app:hintEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:drawableEnd="@drawable/ic_round_person_outline_24"
-                style="@style/editTextInput"
-                android:focusable="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/registerEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/e_mail"
-            style="@style/textInput"
-            app:errorEnabled="true"
-            app:hintEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:drawableEnd="@drawable/ic_outline_email_24"
-                style="@style/editTextInput"
-                android:focusable="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/registerPass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/password"
-            app:passwordToggleEnabled="true"
-            style="@style/textInput"
-            app:errorEnabled="true"
-            app:hintEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                style="@style/editTextInput"
-                android:focusable="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/register_bt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_12"
-        android:layout_marginBottom="@dimen/margin_12"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        style="?attr/materialButtonStyle"
-        android:textSize="18sp"
-        android:backgroundTint="@color/ic_launcher_background"
-        android:text="@string/register"
-        android:textColor="@android:color/white"
-        android:layout_below="@+id/email_container"/>
-
-    <TextView
-        android:id="@+id/login_here"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_24"
-        android:gravity="center"
-        android:textColor="@android:color/darker_gray"
-        android:background="?selectableItemBackground"
-        android:text="@string/already_have_an_account_nlogin_here"
-        android:layout_below="@+id/register_bt"
-        android:onClick="login_here"/>
-
-</RelativeLayout>
+<?xml version="1.0" encoding="utf-8"?><RelativeLayout    xmlns:android="http://schemas.android.com/apk/res/android"    xmlns:app="http://schemas.android.com/apk/res-auto"    xmlns:tools="http://schemas.android.com/tools"    android:layout_width="match_parent"    android:layout_height="match_parent"    tools:context=".RegisterActivity"    android:background="@drawable/login_bg">    <ImageView        android:src="@drawable/ic_launcher_round"        android:layout_width="120dp"        android:layout_height="120dp"        android:layout_above="@+id/email_container"        android:layout_centerHorizontal="true"        tools:ignore="ContentDescription" />    <ProgressBar        android:id="@+id/progressbar"        android:layout_width="wrap_content"        android:layout_height="wrap_content"        android:layout_centerInParent="true"        android:visibility="gone"/>    <RelativeLayout        android:id="@+id/loading"        android:layout_width="match_parent"        android:layout_height="match_parent"        android:visibility="gone"        android:background="@color/overlayBackground"/>    <LinearLayout        android:id="@+id/email_container"        android:orientation="vertical"        android:layout_width="match_parent"        android:layout_height="wrap_content"        android:layout_centerInParent="true"        android:focusable="true"        android:layout_marginTop="8dp"        android:padding="4dp"        android:focusableInTouchMode="true"        tools:ignore="UselessParent">        <com.google.android.material.textfield.TextInputLayout            android:id="@+id/registerName"            android:layout_width="match_parent"            android:layout_height="wrap_content"            android:hint="@string/name"            style="@style/textInput"            app:errorEnabled="true"            app:hintEnabled="true">            <com.google.android.material.textfield.TextInputEditText                android:layout_width="match_parent"                android:layout_height="wrap_content"                android:inputType="textPersonName"                android:drawableEnd="@drawable/ic_round_person_outline_24"                style="@style/editTextInput"                android:focusable="true" />        </com.google.android.material.textfield.TextInputLayout>        <com.google.android.material.textfield.TextInputLayout            android:id="@+id/registerEmail"            android:layout_width="match_parent"            android:layout_height="wrap_content"            android:hint="@string/e_mail"            style="@style/textInput"            app:errorEnabled="true"            app:hintEnabled="true">            <com.google.android.material.textfield.TextInputEditText                android:layout_width="match_parent"                android:layout_height="wrap_content"                android:inputType="textEmailAddress"                android:drawableEnd="@drawable/ic_outline_email_24"                style="@style/editTextInput"                android:focusable="true" />        </com.google.android.material.textfield.TextInputLayout>        <com.google.android.material.textfield.TextInputLayout            android:id="@+id/registerPass"            android:layout_width="match_parent"            android:layout_height="wrap_content"            android:hint="@string/password"            app:passwordToggleEnabled="true"            style="@style/textInput"            app:errorEnabled="true"            app:hintEnabled="true">            <com.google.android.material.textfield.TextInputEditText                android:layout_width="match_parent"                android:layout_height="wrap_content"                android:inputType="textPassword"                style="@style/editTextInput"                android:focusable="true" />        </com.google.android.material.textfield.TextInputLayout>    </LinearLayout>    <Button        android:id="@+id/register_bt"        android:layout_width="match_parent"        android:layout_height="wrap_content"        android:layout_marginTop="@dimen/margin_12"        android:layout_marginBottom="@dimen/margin_12"        android:layout_marginStart="50dp"        android:layout_marginEnd="50dp"        style="?attr/materialButtonStyle"        android:textSize="18sp"        android:backgroundTint="@color/ic_launcher_background"        android:text="@string/register"        android:textColor="@android:color/white"        android:layout_below="@+id/email_container"/>    <TextView        android:id="@+id/login_here"        android:layout_width="match_parent"        android:layout_height="wrap_content"        android:layout_margin="@dimen/margin_24"        android:gravity="center"        android:textColor="@android:color/darker_gray"        android:background="?selectableItemBackground"        android:text="@string/already_have_an_account_nlogin_here"        android:layout_below="@+id/register_bt"        android:onClick="login_here"/></RelativeLayout>

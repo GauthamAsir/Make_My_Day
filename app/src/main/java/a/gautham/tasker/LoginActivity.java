@@ -63,10 +63,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 String title = getIntent().getStringExtra("title");
                 String content = getIntent().getStringExtra("content");
+                String type = getIntent().getStringExtra("type");
 
-                if (title!=null && !title.isEmpty() && content!=null && !content.isEmpty()){
-                    intent.putExtra("title",title);
-                    intent.putExtra("content",content);
+                if (title!=null && !title.isEmpty() && content!=null && !content.isEmpty()) {
+                    intent.putExtra("title", title)
+                            .putExtra("content", content)
+                            .putExtra("type", type);
                 }
 
                 startActivity(intent);
@@ -116,22 +118,24 @@ public class LoginActivity extends AppCompatActivity {
                             if (getIntent()!=null){
                                 String title = getIntent().getStringExtra("title");
                                 String content = getIntent().getStringExtra("content");
+                                String type = getIntent().getStringExtra("type");
 
                                 if (title==null || title.isEmpty() || content==null || content.isEmpty()){
 
                                     loading(false);
-                                    Common.toastLong(getApplicationContext(),getString(R.string.login_success));
-                                    startActivity(new Intent(getApplicationContext(),Dashboard.class));
+                                    Common.toastLong(getApplicationContext(), getString(R.string.login_success));
+                                    startActivity(new Intent(getApplicationContext(), Dashboard.class));
                                     finish();
                                     return;
 
                                 }
 
                                 loading(false);
-                                Common.toastLong(getApplicationContext(),getString(R.string.login_success));
-                                startActivity(new Intent(getApplicationContext(),AddNotes.class)
-                                .putExtra("title",title)
-                                .putExtra("content",content));
+                                Common.toastLong(getApplicationContext(), getString(R.string.login_success));
+                                startActivity(new Intent(getApplicationContext(),
+                                        type != null && !type.isEmpty() && type.equals("Tasks") ?
+                                                AddTasks.class : AddNotes.class).putExtra("title", title)
+                                        .putExtra("content", content));
 
                             }else {
                                 loading(false);

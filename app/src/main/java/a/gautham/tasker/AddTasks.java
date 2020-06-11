@@ -141,8 +141,9 @@ public class AddTasks extends AppCompatActivity {
             public void onClick(View v) {
                 if (FirebaseAuth.getInstance().getCurrentUser()==null){
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class)
-                    .putExtra("title",getTaskTitle().isEmpty() ? "default" : getTaskTitle())
-                    .putExtra("content","default"));
+                            .putExtra("title", getTaskTitle().isEmpty() ? "default" : getTaskTitle())
+                            .putExtra("content", "default")
+                            .putExtra("type", "Tasks"));
                 }else {
                     saveTask();
                 }
